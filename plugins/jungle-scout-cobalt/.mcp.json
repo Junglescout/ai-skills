@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "jungle-scout-cobalt-mcp": {
+      "type": "http",
+      "url": "https://ai.junglescout.com/mcp"
+    }
+  }
+}
