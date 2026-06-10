@@ -1,0 +1,43 @@
+name: Publish latest skills package
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-latest-skills:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create skills package
+        run: |
+          cd plugins/jungle-scout-cobalt
+          zip -r ../../jungle-scout-cobalt-skills.zip skills
+
+      - name: Ensure latest release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view latest || gh release create latest \
+            --title "Latest skills package" \
+            --notes "Automatically updated with the latest Jungle Scout Cobalt skills package." \
+            --prerelease \
+            --latest=false
+
+      - name: Replace latest release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view latest --json assets --jq '.assets[].name' | while read -r asset; do
+            gh release delete-asset latest "$asset" --yes
+          done
+
+          gh release upload latest jungle-scout-cobalt-skills.zip --clobber
