@@ -6,7 +6,7 @@ This repository defines a custom Claude plugin marketplace for Jungle Scout Coba
 
 - A Claude marketplace manifest at `.claude-plugin/marketplace.json`.
 - One plugin: `jungle-scout-cobalt`.
-- Jungle Scout Cobalt skills for Amazon data workflows, including brand benchmarking, pricing analysis, and innovation discovery.
+- Jungle Scout Cobalt skills for Amazon data workflows.
 - An MCP server configuration pointing Claude to `https://ai.junglescout.com/mcp`.
 
 ## Jungle Scout MCP
@@ -21,22 +21,13 @@ Typical questions include:
 - "How does revenue split across price tiers in this category?"
 - "How has this brand's Share of Voice changed over time?"
 
-## Customer Setup
+## Setup
 
 1. Add this repository as a custom marketplace in the customer's Claude organization.
 2. Install the `jungle-scout-cobalt` plugin from that marketplace.
 3. Connect the Jungle Scout MCP when prompted.
 4. Authenticate with Jungle Scout Cobalt credentials.
 5. Start a new Claude session and confirm the Jungle Scout connector is enabled.
-
-## Repository Layout
-
-```text
-.claude-plugin/marketplace.json
-plugins/jungle-scout-cobalt/.claude-plugin/plugin.json
-plugins/jungle-scout-cobalt/.mcp.json
-plugins/jungle-scout-cobalt/skills/
-```
 
 ## Notes
 
