@@ -22,10 +22,10 @@ The Jungle Scout MCP connects Claude to Jungle Scout's Amazon market data. It le
 Typical questions include:
 
 - "How is this brand trending against its category?"
-- "Show the top products in this category and their year-over-year sales change."
-- "What keywords does this ASIN rank for?"
-- "How does revenue split across price tiers in this category?"
-- "How has this brand's Share of Voice changed over time?"
+- "What are the fastest growing products in Home & Kitchen over the last year?"
+- "What sellers are selling on my listing and how much revenue are they making?"
+- "Who are the primary competitors on the keywords this ASIN ranks for?"
+- "In what price tiers is revenue growing the fastest in my niche?"
 
 ## Claude Setup
 
