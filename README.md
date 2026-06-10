@@ -1,13 +1,19 @@
-# Jungle Scout Cobalt Claude Plugin Marketplace
+# Jungle Scout Cobalt AI Skills
 
-This repository defines a custom Claude plugin marketplace for Jungle Scout Cobalt. Users can add this marketplace to their Claude organization, install the Jungle Scout Cobalt plugin, and receive the latest packaged skills and MCP server configuration from one place.
+This repository distributes Jungle Scout Cobalt skills and MCP configuration for AI assistants.
 
-## What It Includes
+- **Claude users** can add this repository as a custom Claude plugin marketplace and install the `jungle-scout-cobalt` plugin.
+- **ChatGPT users** can download the latest skills zip and upload it at <https://chatgpt.com/skills>.
+
+The packaged skills help users work with Jungle Scout's Amazon market data through the Jungle Scout MCP server.
+
+## What This Repository Includes
 
 - A Claude marketplace manifest at `.claude-plugin/marketplace.json`.
-- One plugin: `jungle-scout-cobalt`.
+- One Claude plugin: `jungle-scout-cobalt`.
 - Jungle Scout Cobalt skills for Amazon data workflows.
-- An MCP server configuration pointing Claude to `https://ai.junglescout.com/mcp`.
+- An MCP server configuration for Claude pointing to `https://ai.junglescout.com/mcp`.
+- A downloadable skills zip for ChatGPT users.
 
 ## Jungle Scout MCP
 
