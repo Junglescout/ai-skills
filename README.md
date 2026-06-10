@@ -21,13 +21,23 @@ Typical questions include:
 - "How does revenue split across price tiers in this category?"
 - "How has this brand's Share of Voice changed over time?"
 
-## Setup
+## Claude Setup
 
 1. Add this repository as a custom marketplace in the customer's Claude organization.
 2. Install the `jungle-scout-cobalt` plugin from that marketplace.
 3. Connect the Jungle Scout MCP when prompted.
 4. Authenticate with Jungle Scout Cobalt credentials.
 5. Start a new Claude session and confirm the Jungle Scout connector is enabled.
+
+## ChatGPT Setup
+
+ChatGPT does not have plugins. The steps in this setup are only for adding skills. Follow [this guide](https://junglescout.notion.site/Jungle-Scout-MCP-Getting-Started-guide-3742362b8e5b802288bec7a7f7941566) to add Jungle Scout MCP as an App to your ChatGPT account, then follow the steps below to add the skills.
+
+1. Download the latest skills zip: <https://github.com/Junglescout/ai-skills/releases/download/latest/jungle-scout-cobalt-skills.zip>.
+2. Go to <https://chatgpt.com/skills>.
+3. Press **+ New Skill**.
+4. Select **Upload from your computer**.
+5. Select the downloaded zip file.
 
 ## Notes
 
