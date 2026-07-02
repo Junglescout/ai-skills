@@ -35,12 +35,13 @@ Typical questions include:
    3. Select **Add from repository option**
    4. Enter the repository URL: `https://github.com/Junglescout/ai-skills`
 2. After the marketplace is added, click the **Browse plugins** button and switch to Personal tab.
-3. Install the `jungle-scout-cobalt` plugin from that **https://github.com/Junglescout/ai-skills** marketplace.
-4. Connect the Jungle Scout MCP when prompted.
-5. Authenticate with Jungle Scout Cobalt credentials.
-6. Start a new Claude session and confirm the Jungle Scout connector is enabled.
+3. Find the 'ai-skills' marketplace, click on three dots menu, and toggle on "Sync Automatically" to keep the marketplace up to date with the latest skills.
+4. Install the `jungle-scout-cobalt` plugin from that **https://github.com/Junglescout/ai-skills** marketplace.
+5. Connect the Jungle Scout MCP when prompted.
+6. Authenticate with Jungle Scout Cobalt credentials.
+7. Start a new Claude session and confirm the Jungle Scout connector is enabled.
 
-With plugin installed you will gain access to the skills in this repository, which use the Jungle Scout MCP to retrieve Amazon market data and insights. Skills are automatically updated as we add new ones to the repository, so you will always have access to the latest capabilities.
+With the plugin installed, you will gain access to the skills in this repository, which use the Jungle Scout MCP to retrieve Amazon market data and insights. Skills are automatically updated as we add new ones to the repository, so you will always have access to the latest capabilities.
 
 ## ChatGPT Setup
 
