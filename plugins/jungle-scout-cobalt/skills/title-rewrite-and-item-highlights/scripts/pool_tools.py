@@ -160,7 +160,7 @@ if __name__ == "__main__":
         head_n = int(_opt("--head", 10))
         mid_n = int(_opt("--mid", 15))
         nouns_arg = _opt("--nouns")
-        nouns = [n.strip().rstrip("s") for n in nouns_arg.split(",")] if nouns_arg else []
+        nouns = [n.strip().lower() for n in nouns_arg.split(",")] if nouns_arg else []
         synmap = load_synonyms(_opt("--synonyms"))
         gap(sys.argv[2], sys.argv[3], floor, nouns, synmap, head_n, mid_n)
     elif cmd == "cluster":
