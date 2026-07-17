@@ -1,11 +1,5 @@
 # Keyword relevance screen — accept / reject cases
 
-> RECONSTRUCTED 2026-06-15. The original reference (with your real per-category
-> pilot cases) was unreachable when this bundle was built. The patterns below
-> are faithful to the screen described in SKILL.md Stage 4, but you should merge
-> your original accept/reject examples back into this file — the concrete,
-> category-specific cases are what make the screen reliable.
-
 The relevance screen runs on every gap candidate **before** it touches a title.
 A keyword passes only if BOTH hold:
 
