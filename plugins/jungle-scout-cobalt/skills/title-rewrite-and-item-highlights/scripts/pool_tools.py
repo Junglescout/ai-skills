@@ -53,7 +53,7 @@ def load_synonyms(path):
     return out
 
 
-def normalize(name: str, synmap: dict | None = None) -> str:
+def normalize(name: str, synmap=None) -> str:
     """Cluster key: collapse spacing/hyphen/plural variants so 'tball bat',
     't ball bat', 'tee ball bats' count as one demand cluster. With a synonym
     map, semantic siblings ('bling'/'rhinestone') also collapse to one key."""
