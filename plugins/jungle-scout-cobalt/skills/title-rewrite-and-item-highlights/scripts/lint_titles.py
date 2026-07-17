@@ -137,8 +137,8 @@ def main():
         if rev_known:
             at_risk = sum(float(r["revenue"]) for r in over)
             total = sum(float(r["revenue"]) for r in rows)
-            print(f"Revenue at risk: ${at_risk:,.0f} of ${total:,.0f} "
-                  f"({100*at_risk/total:.0f}%)")
+            pct = (100 * at_risk / total) if total else 0
+            print(f"Revenue at risk: ${at_risk:,.0f} of ${total:,.0f} ({pct:.0f}%)")
         for r in sorted(over, key=lambda r: len(r["title"]), reverse=True)[:10]:
             print(f"  {r['asin']} {len(r['title'])}ch")
         return
