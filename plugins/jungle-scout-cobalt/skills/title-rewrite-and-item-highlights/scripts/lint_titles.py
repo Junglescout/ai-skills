@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic title compliance linter for the title-rewrite-75 skill.
+"""Deterministic title compliance linter for the title-rewrite-and-item-highlights skill.
 
 Rules load from ../assets/title-rules.json — never hardcode them here, so a
 verified rules update changes behavior without touching code.
