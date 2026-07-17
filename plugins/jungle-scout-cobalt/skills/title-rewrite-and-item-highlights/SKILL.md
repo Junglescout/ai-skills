@@ -13,7 +13,7 @@ Why this exists: from July 27, 2026, Amazon truncates the problem for you — an
 
 This skill is platform-neutral: it calls the connector tools directly and runs its bundled scripts in whatever code-execution environment is available. Two things shape how it operates, and both are handled below:
 
-- **Data comes from the Jungle Scout Cobalt connector/MCP server.** Every data tool this skill uses (`list_orgs`, `analyze_products`, `analyze_brands`, `search_keywords_by_asin`, `get_keyword_sov`, `get_keyword_search_volume_history`) is provided by the Jungle Scout Cobalt connector/MCP server. Call these tools directly; the bundled scripts never make network calls — they only do set math on the JSON written to the sandbox.
+- **Data comes from the Jungle Scout Cobalt connector/MCP server.** Every data tool this skill uses (`list_orgs`, `analyze_products`, `analyze_brands`, `search_keywords_by_asin`, `search_keywords_by_keyword`, `get_keyword_sov`, `get_keyword_search_volume_history`) is provided by the Jungle Scout Cobalt connector/MCP server. Call these tools directly; the bundled scripts never make network calls — they only do set math on the JSON written to the sandbox.
 - **Files live in the code-execution sandbox.** Scripts (`scripts/pool_tools.py`, `scripts/lint_titles.py`) and assets (`assets/title-rules.json`) run as-is in the sandbox. Intermediate pools are written to the sandbox working directory; final outputs are delivered to the user as downloadable files, not saved to a mounted folder.
 
 ### Stage 0 — Setup (interactive)
