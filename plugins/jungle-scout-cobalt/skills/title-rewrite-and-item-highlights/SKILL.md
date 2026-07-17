@@ -1,14 +1,6 @@
 ---
 name: title-rewrite-and-item-highlights
-description: >
-  Bulk-rewrite a brand's Amazon product titles to meet Amazon's 75-character title
-  requirement (effective July 27, 2026) using verified keyword gap analysis against
-  the Jungle Scout connector. Use this skill whenever the user mentions the 75-character
-  title rule, the July 27 deadline, title compliance, bulk title rewrites, "Amazon is
-  rewriting our titles", title audits, revenue at risk from title changes, or wants
-  keyword-optimized titles for a brand's catalog — even if they don't say "75
-  characters" explicitly. Also trigger when a customer asks how exposed their catalog
-  is to Amazon's AI title rewrites, or wants a CSV of new titles for bulk upload.
+description: "Bulk-rewrite a brand's Amazon product titles to meet Amazon's 75-character title requirement (effective July 27, 2026) using verified keyword gap analysis against the Jungle Scout Cobalt connector/MCP server. Use this skill whenever the user mentions the 75-character title rule, the July 27 deadline, title compliance, bulk title rewrites, 'Amazon is rewriting our titles', title audits, revenue at risk from title changes, or wants keyword-optimized titles for a brand's catalog — even if they don't say '75 characters' explicitly. Also trigger when a customer asks how exposed their catalog is to Amazon's AI title rewrites, or wants a CSV of new titles for bulk upload."
 ---
 
 # Title Rewrite and Item Highlights
@@ -17,16 +9,16 @@ Rewrite every over-limit title in a brand's Amazon catalog to ≤75 characters, 
 
 Why this exists: from July 27, 2026, Amazon truncates the problem for you — any title over 75 characters gets gradually replaced by Amazon's own AI recommendation (brand owners get a 14-day review window). A brand that does nothing hands its titles to Amazon. This skill gives them better titles than Amazon's generic rewrite, with data behind every word.
 
-## Environment (claude.ai web)
+## Environment
 
-This skill runs on claude.ai. Two things differ from a desktop environment, and both are handled below:
+This skill is platform-neutral: it calls the connector tools directly and runs its bundled scripts in whatever code-execution environment is available. Two things shape how it operates, and both are handled below:
 
-- **Data comes from the Jungle Scout connector.** Every data tool this skill uses (`list_orgs`, `analyze_products`, `analyze_brands`, `search_keywords_by_asin`, `get_keyword_sov`, `get_keyword_search_volume_history`) is provided by the Jungle Scout connector. Claude calls these tools directly; the bundled scripts never make network calls — they only do set math on the JSON Claude writes to the sandbox.
+- **Data comes from the Jungle Scout Cobalt connector/MCP server.** Every data tool this skill uses (`list_orgs`, `analyze_products`, `analyze_brands`, `search_keywords_by_asin`, `get_keyword_sov`, `get_keyword_search_volume_history`) is provided by the Jungle Scout Cobalt connector/MCP server. Call these tools directly; the bundled scripts never make network calls — they only do set math on the JSON written to the sandbox.
 - **Files live in the code-execution sandbox.** Scripts (`scripts/pool_tools.py`, `scripts/lint_titles.py`) and assets (`assets/title-rules.json`) run as-is in the sandbox. Intermediate pools are written to the sandbox working directory; final outputs are delivered to the user as downloadable files, not saved to a mounted folder.
 
 ### Stage 0 — Setup (interactive)
 
-**Connector check first.** Call `list_orgs`. If it fails or returns nothing, stop and tell the user to connect the Jungle Scout connector under Settings → Connectors, then retry — do not attempt to proceed without it. If it succeeds, resolve `org_id` from the result.
+**Connector check first.** Call `list_orgs`. If it fails or returns nothing, stop and tell the user to connect the Jungle Scout Cobalt connector/MCP server, then retry — do not attempt to proceed without it. If it succeeds, resolve `org_id` from the result.
 
 Then confirm with the user: brand name, marketplace (default US), and voice rules — keep model codes in titles? abbreviations like RHT acceptable? policy on gendered terms ("for boys")? These become generation constraints. Ask now, not after generating 500 titles.
 
@@ -45,7 +37,7 @@ Group the brand's ASINs by leaf category. For each category:
 - **Brand pool:** `search_keywords_by_asin` with ALL the brand's ASINs in that category in one call (it's a batch endpoint — never loop per ASIN). Pull two sorts (`-relative_value_score` and `-estimated_exact_search_volume`), volume floor ~100. Batch per category, never whole-brand: mixed-category batches pollute RVS rankings.
 - **Competitor pool:** derive the competitor set with `analyze_brands` scoped to the category — top 5 by revenue plus top 3 by revenue growth (growth catches Amazon-native challengers that revenue-only misses). Pull their top ASINs with `analyze_products` (top 20 by revenue, drop the client brand in code, cap 5 ASINs per competitor brand so one brand can't dominate the pool). Then the same batched keyword pull.
 
-**Context-safe pulls (required on claude.ai).** A 1,000-row page with full metadata overflows the inline tool result, and on claude.ai the overflow file is not reachable from the analysis sandbox — so an exhausted pool you can't read is worthless. Request **minimal fields only** (`id, name, estimated_exact_search_volume, relative_value_score, quarterly_trend`) and use **moderate pages** (≈200 rows) rather than 1,000-row pages. You do not need to exhaust the pool: top-N-by-volume is provably sufficient for finding the top-K gaps, because a keyword below the cutoff cannot outrank one above it on the metric you're ranking by. Paginate only until the volume floor (~100) is reached or two consecutive pages add no candidate above the floor. The one exception is the differentiator audit in Stage 5, which is keyword-first and does not rely on this pool depth.
+**Context-safe pulls (required).** A 1,000-row page with full metadata overflows the inline tool result, and in some environments the overflow file is not reachable from the analysis sandbox — so an exhausted pool you can't read is worthless. Request **minimal fields only** (`id, name, estimated_exact_search_volume, relative_value_score, quarterly_trend`) and use **moderate pages** (≈200 rows) rather than 1,000-row pages. You do not need to exhaust the pool: top-N-by-volume is provably sufficient for finding the top-K gaps, because a keyword below the cutoff cannot outrank one above it on the metric you're ranking by. Paginate only until the volume floor (~100) is reached or two consecutive pages add no candidate above the floor. The one exception is the differentiator audit in Stage 5, which is keyword-first and does not rely on this pool depth.
 
 Write every pool to the sandbox working directory as JSON immediately (`pools/<category>-brand.json`, `pools/<category>-comp.json`). Do not hold pools in context — at full catalog scale they won't fit, and all set math happens in code anyway.
 
@@ -101,10 +93,10 @@ Surface each file to the user as a download as it's completed. Close by remindin
 
 ## Scale and cost discipline
 
-Call budget is ~8–13 calls per leaf category plus one per parent in the measured tier — catalog size barely matters, category count does. Both customer-side context and claude.ai's per-conversation limits are the real constraint: pools live in the sandbox, only shortlists enter context, and outputs are written incrementally per category.
+Call budget is ~8–13 calls per leaf category plus one per parent in the measured tier — catalog size barely matters, category count does. Both customer-side context and the environment's per-conversation limits are the real constraint: pools live in the sandbox, only shortlists enter context, and outputs are written incrementally per category.
 
-On claude.ai, do not assume an entire large catalog fits in one conversation. **Process category by category and export `rewrites.csv` per category as you finish it.** For a small brand (a few categories) one session is fine. For a large brand (many categories, hundreds of parents, or a long-running conversation), run categories across separate sessions and concatenate the per-category CSVs at the end — the per-category method and call budget are unchanged. Tell the user which categories a given session covered so nothing is silently dropped.
+Do not assume an entire large catalog fits in one conversation. **Process category by category and export `rewrites.csv` per category as you finish it.** For a small brand (a few categories) one session is fine. For a large brand (many categories, hundreds of parents, or a long-running conversation), run categories across separate sessions and concatenate the per-category CSVs at the end — the per-category method and call budget are unchanged. Tell the user which categories a given session covered so nothing is silently dropped.
 
 ## Known limits
 
-US marketplace only (localized keywords like `guantes de beisbol` go to flags, not titles). `assets/title-rules.json` carries a `verified` flag and date — if `verified` is false, say so in the output rather than presenting the linter as authoritative. Media categories are exempt from the 75-char rule. Requires the Jungle Scout connector to be enabled in Settings → Connectors; without it the skill cannot run.
+US marketplace only (localized keywords like `guantes de beisbol` go to flags, not titles). `assets/title-rules.json` carries a `verified` flag and date — if `verified` is false, say so in the output rather than presenting the linter as authoritative. Media categories are exempt from the 75-char rule. Requires the Jungle Scout Cobalt connector/MCP server to be enabled; without it the skill cannot run.
