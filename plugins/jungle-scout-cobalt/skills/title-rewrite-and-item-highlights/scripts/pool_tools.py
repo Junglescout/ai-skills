@@ -61,7 +61,8 @@ def normalize(name: str, synmap: dict | None = None) -> str:
     s = s.replace("tee ball", "tball").replace("t ball", "tball")
     words = []
     for w in s.split():
-        w = w.rstrip("s") if len(w) > 3 else w
+        if len(w) > 3 and w.endswith("s") and not w.endswith("ss"):
+            w = w[:-1]
         w = (synmap or {}).get(w, w)
         words.append(w)
     return " ".join(sorted(words))
