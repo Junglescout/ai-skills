@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Keyword pool set-math for the title-rewrite-75 skill.
+"""Keyword pool set-math for the title-rewrite-and-item-highlights skill.
 
 Pools are JSON files of rows from search_keywords_by_asin — append each page of
 each sort order to the same file via `merge`; dedupe happens here. All analysis
