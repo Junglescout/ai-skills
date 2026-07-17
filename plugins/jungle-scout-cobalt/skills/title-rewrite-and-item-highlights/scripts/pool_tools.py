@@ -100,7 +100,7 @@ def build_clusters(rows, synmap):
 
 def matches_noun(name, nouns):
     toks = set(re.sub(r"[^a-z0-9 ]", " ", name.lower()).split())
-    toks |= {t.rstrip("s") for t in toks}
+    toks |= {t[:-1] if len(t) > 3 and t.endswith("s") and not t.endswith("ss") else t for t in toks}
     return any(n in toks for n in nouns)
 
 
