@@ -12,11 +12,14 @@ Usage:
 
 gap options:
   --floor N            volume floor for candidates (default 500)
-  --nouns "a,b,c"      product nouns/attributes; mid-tail bucket = candidates
-                       whose tokens include one of these (this is where
+  --nouns "a,b,c"      product nouns/attributes (multi-word allowed, e.g.
+                       "baseball glove"); mid-tail bucket = candidates whose
+                       tokens include one of these (this is where
                        product-specific differentiators live)
   --synonyms map.json  semantic-sibling map {canonical: [siblings...]} so
-                       "bling"/"rhinestone"/"sparkly" collapse to one cluster
+                       "bling"/"rhinestone"/"sparkly" collapse to one cluster;
+                       multi-word siblings work too, e.g.
+                       {"tball": ["t ball", "tee ball"]}
   --head N             size of the head-term bucket (default 10)
   --mid N              size of the mid-tail bucket (default 15)
 
@@ -54,11 +57,14 @@ def load_synonyms(path):
 
 
 def normalize(name: str, synmap=None) -> str:
-    """Cluster key: collapse spacing/hyphen/plural variants so 'tball bat',
-    't ball bat', 'tee ball bats' count as one demand cluster. With a synonym
-    map, semantic siblings ('bling'/'rhinestone') also collapse to one key."""
+    """Cluster key: collapse hyphen/plural variants so 'tball bat' and
+    'tball bats' count as one demand cluster. With a synonym map, semantic
+    siblings ('bling'/'rhinestone') and multi-word spacing variants
+    ('t ball'/'tee ball' -> 'tball') also collapse to one key."""
     s = re.sub(r"[^a-z0-9 ]", " ", name.lower())
-    s = s.replace("tee ball", "tball").replace("t ball", "tball")
+    for key, canon in (synmap or {}).items():
+        if "_" in key:
+            s = s.replace(key.replace("_", " "), canon)
     words = []
     for w in s.split():
         if len(w) > 3 and w.endswith("s") and not w.endswith("ss"):
@@ -99,9 +105,9 @@ def build_clusters(rows, synmap):
 
 
 def matches_noun(name, nouns):
-    toks = set(re.sub(r"[^a-z0-9 ]", " ", name.lower()).split())
-    toks |= {t[:-1] if len(t) > 3 and t.endswith("s") and not t.endswith("ss") else t for t in toks}
-    return any(n in toks for n in nouns)
+    stem = lambda t: t[:-1] if len(t) > 3 and t.endswith("s") and not t.endswith("ss") else t
+    toks = {stem(t) for t in re.sub(r"[^a-z0-9 ]", " ", name.lower()).split()}
+    return any(all(stem(w) in toks for w in n.split()) for n in nouns)
 
 
 def gap(brand_p, comp_p, floor, nouns, synmap, head_n, mid_n):
@@ -132,7 +138,7 @@ def gap(brand_p, comp_p, floor, nouns, synmap, head_n, mid_n):
           f"differentiators hide here.", file=sys.stderr)
     print(f"# NEXT: verify BOTH buckets with get_keyword_sov + relevance screen. "
           f"Set difference alone is NOT evidence of a real gap. "
-          f"For each parent's differentiator, also run the keyword-first sibling "
+          f"For each family's differentiator, also run the keyword-first sibling "
           f"audit (search_keywords_by_keyword) — pool math can't invent a "
           f"higher-volume synonym that isn't already in either pool.",
           file=sys.stderr)

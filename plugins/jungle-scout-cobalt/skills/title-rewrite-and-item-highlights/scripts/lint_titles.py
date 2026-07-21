@@ -24,7 +24,7 @@ RULES = json.loads((Path(__file__).parent.parent / "assets" / "title-rules.json"
 
 
 def lint(title: str, brand: str | None = None) -> list[str]:
-    errs, warns = [], []
+    errs = []
     if len(title) > RULES["max_length"]:
         errs.append(f"LENGTH {len(title)}>{RULES['max_length']}")
     bad = sorted(set(title) & set(RULES["banned_chars"]))
@@ -45,7 +45,7 @@ def lint(title: str, brand: str | None = None) -> list[str]:
     promo = [p for p in RULES["no_promotional_claims"] if p in low]
     if promo:
         errs.append(f"PROMO_CLAIM {promo}")
-    if brand and RULES["brand_first"] and not title.startswith(brand):
+    if brand and RULES["brand_first"] and not title.lower().startswith(brand.lower()):
         errs.append("BRAND_NOT_FIRST")
     return errs
 
@@ -120,12 +120,14 @@ def lint_highlights(ih: str | None, title: str = "") -> list[str]:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("csv_path")
-    ap.add_argument("--census", action="store_true")
-    ap.add_argument("--check", action="store_true")
+    mode = ap.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--census", action="store_true")
+    mode.add_argument("--check", action="store_true")
     ap.add_argument("--brand", default=None)
     args = ap.parse_args()
 
-    rows = list(csv.DictReader(open(args.csv_path)))
+    with open(args.csv_path, newline="") as f:
+        rows = list(csv.DictReader(f))
     if not RULES.get("verified"):
         print(f"NOTE: rules version {RULES['version']} is UNVERIFIED — "
               f"surface unverified-rule hits in flags.md\n")
