@@ -61,7 +61,7 @@ Goal: catch wasted spend and clear wins fast enough to act on this week. Read
 | # | Question | Tool | If unavailable |
 | --- | --- | --- | --- |
 | 8 | Where is account spend against the budget target, and what is the pace index? | `query_ad_performance` **[A]** at account level | No spend data at all — see the no-Advertising-account fallback below |
-| 9 | Which active campaigns spent more than the spend floor in the last 7 days with **no** attributed sales? | `query_ad_performance` **[A]** at campaign level | — |
+| 9 | Which campaigns spent more than the spend floor in the last 7 days with **no** attributed sales? | `query_ad_performance` **[A]** at campaign level | — |
 | 10 | Which campaigns are above the ACoS threshold over the last 7 days? Prefer the account's joined ACoS/TACoS/CPU goals over a guessed threshold. | `query_ad_performance` **[A]** | — |
 | 11 | What are the top campaigns by wasted spend, and what is the recommended fix for each? | #9 and #10 ranked by dollars, plus `query_ad_targeting` **[A]** for the fix | — |
 | 12 | Which keyword targets spent and converted nothing? | `query_ad_targeting` **[A]** — use its spent-but-no-conversion filter directly | — |
