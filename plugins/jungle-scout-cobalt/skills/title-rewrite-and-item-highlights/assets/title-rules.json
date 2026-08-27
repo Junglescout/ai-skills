@@ -1,0 +1,29 @@
+{
+  "_note": "RECONSTRUCTED 2026-06-15 from the linter's expected schema because the original asset was unreachable when this bundle was built. Values are best-effort defaults aligned to Amazon's 75-char title guidance, NOT your verified rules. Replace this file with your original assets/title-rules.json before shipping. 'verified' is false so the skill surfaces every rule as unverified in flags.md.",
+  "version": "reconstructed-2026-06-15",
+  "verified": false,
+  "max_length": 75,
+  "banned_chars": ["!", "$", "?", "_", "{", "}", "^", "~", "#", "<", ">", "*"],
+  "pipe_char": { "policy": "strip", "verified": false },
+  "max_word_repeats": 2,
+  "repeat_exempt_words": ["for", "the", "and", "with", "a", "an", "of", "to", "in", "on"],
+  "numerals_in_repeat_rule": { "policy": "ignore" },
+  "no_promotional_claims": [
+    "best seller", "bestseller", "#1", "free shipping", "sale",
+    "cheap", "hot deal", "top rated", "100% guarantee", "money back",
+    "limited time", "lowest price", "eco friendly", "guaranteed"
+  ],
+  "brand_first": true,
+  "item_highlights": {
+    "required": true,
+    "max_length": 125,
+    "max_length_verified": true,
+    "format": "comma_separated_phrases",
+    "forbid_title_duplication": true,
+    "min_new_token_fraction": 0.5,
+    "reuse_banned_chars": true,
+    "reuse_promotional_claims": true,
+    "source": "Amazon Product title requirements and guidelines, Seller Central GYTR6SYGFA5E3EQC",
+    "note": "Item highlights add up to 125 characters for product details (materials, recommended use cases, specs, compatibility, certifications, size/count), written as comma-separated phrases, NOT full sentences. Author for every ASIN; a blank is a lint failure. The 125-char limit is verified against Amazon guidance; the rest of this file remains unverified until the original ruleset is restored."
+  }
+}
