@@ -1,0 +1,24 @@
+# Trigger fixtures for innovation-whitespace.
+
+should_trigger:
+  - "Where's the whitespace for Ninja in kitchen appliances?"
+  - "What should we launch next in pet supplements?"
+  - "Where can our brand expand on Amazon?"
+  - "How do we differentiate against Hydro Flask?"
+  - "New product ideas for our brand in skincare"
+  - "Where's our right to win in outdoor gear?"
+  - "Which adjacent categories should we move into?"
+  - "What are the assortment gaps for our brand in coffee?"
+  - "Give me ranked growth opportunities for Liquid IV"
+  - "What's the biggest untapped opportunity for us in supplements?"
+
+should_not_trigger:
+  - prompt: "Why did we lose share to Mantyplay?"
+    expect: share-diagnosis
+  - prompt: "How does our brand compare to the category on price tiers?"
+    expect: benchmark-brand
+  - prompt: "Which keywords are breaking out in the category?"
+    expect: analyze-category-keywords
+  - prompt: "Fix our titles before the July 27 deadline"
+    expect: title-rewrite-and-item-highlights
+  - "How big is the protein bar category on Amazon?"

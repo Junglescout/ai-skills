@@ -1,0 +1,38 @@
+name: Skill lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Lint skills
+        run: python3 .github/skill-checks/lint_skills.py
+
+      - name: Verify the skills package builds
+        run: |
+          cd plugins/jungle-scout-cobalt
+          zip -qr "$RUNNER_TEMP/jungle-scout-cobalt-skills.zip" skills
+          # Every skill must survive packaging — this is the artifact ChatGPT
+          # users upload, and publish-latest-skills.yml builds it the same way.
+          on_disk=$(find skills -name SKILL.md | wc -l)
+          in_zip=$(unzip -l "$RUNNER_TEMP/jungle-scout-cobalt-skills.zip" | grep -c 'SKILL\.md')
+          echo "SKILL.md on disk: $on_disk, in package: $in_zip"
+          test "$on_disk" -eq "$in_zip"

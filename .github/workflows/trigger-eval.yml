@@ -1,0 +1,60 @@
+name: Trigger accuracy
+
+on:
+  pull_request:
+    paths:
+      - "plugins/**/SKILL.md"
+      - ".github/skill-checks/triggers/**"
+      - ".github/skill-checks/run_trigger_eval.py"
+      - ".github/workflows/trigger-eval.yml"
+  workflow_dispatch:
+    inputs:
+      min_accuracy:
+        description: "Minimum overall accuracy (0-1)"
+        default: "0.9"
+
+jobs:
+  trigger-accuracy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml anthropic
+
+      # Forks and PRs from outside the repo don't get secrets. Skip with a
+      # notice rather than failing red on a PR the author can't fix.
+      - name: Check for API key
+        id: key
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::ANTHROPIC_API_KEY is not available to this run; skipping the trigger-accuracy eval."
+          fi
+
+      - name: Run trigger-accuracy eval
+        if: steps.key.outputs.present == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          set -o pipefail
+          python3 .github/skill-checks/run_trigger_eval.py \
+            --min-accuracy "${{ github.event.inputs.min_accuracy || '0.9' }}" \
+            | tee "$RUNNER_TEMP/trigger-eval.txt"
+          {
+            echo '### Trigger accuracy'
+            echo '```'
+            cat "$RUNNER_TEMP/trigger-eval.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
