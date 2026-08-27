@@ -1,0 +1,9 @@
+# Snake_case identifiers that look like MCP tool names to lint_skills.py but are
+# actually request parameters or response fields. Add to this list when the
+# linter flags a legitimate field name. Blank lines and #-comments are ignored.
+
+query_keyword
+search_time_max
+search_time_min
+search_time_week
+search_volume

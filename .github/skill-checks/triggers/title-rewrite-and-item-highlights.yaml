@@ -1,0 +1,24 @@
+# Trigger fixtures for title-rewrite-and-item-highlights.
+
+should_trigger:
+  - "Amazon is rewriting our titles — how exposed are we?"
+  - "We need titles under 75 characters before the July 27 deadline"
+  - "Bulk rewrite our catalog titles using our keyword gaps"
+  - "Run a title audit across our brand"
+  - "How much revenue is at risk from the new title rule?"
+  - "Give me a CSV of new titles for bulk upload"
+  - "Our listings don't meet the 75-character requirement — fix them"
+  - "Optimize our product titles with the keywords we're missing"
+  - "Which of our ASINs fail Amazon's title requirements?"
+  - "Check our catalog's title compliance and rewrite the failures"
+
+should_not_trigger:
+  - prompt: "Why are we losing share in this category?"
+    expect: share-diagnosis
+  - prompt: "What keywords are trending in the category right now?"
+    expect: analyze-category-keywords
+  - prompt: "Benchmark our brand against the category"
+    expect: benchmark-brand
+  - prompt: "What new product should we launch?"
+    expect: innovation-whitespace
+  - "Write a product description for our new launch"

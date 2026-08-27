@@ -1,0 +1,21 @@
+# Trigger fixtures for jungle-scout-visualizer.
+#
+# This skill is a presentation layer that composes with the others rather than
+# competing with them, so the single-choice router this harness uses is a
+# simplification for it. The cases here are deliberately narrow: styling-only
+# asks should land on it, and a content question should never be answered by
+# the styling layer alone.
+
+should_trigger:
+  - "Style this Jungle Scout revenue table for a customer-facing report"
+  - "Turn these Cobalt numbers into a chart"
+  - "How should I present this Jungle Scout data?"
+  - "Make the headline metric in this pull match our presentation standard"
+
+should_not_trigger:
+  - prompt: "Why did our share fall last quarter?"
+    expect: share-diagnosis
+  - prompt: "Benchmark our brand against the category"
+    expect: benchmark-brand
+  - prompt: "What keywords are emerging in this category?"
+    expect: analyze-category-keywords

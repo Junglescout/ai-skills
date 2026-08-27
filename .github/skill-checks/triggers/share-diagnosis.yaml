@@ -1,0 +1,30 @@
+# Trigger fixtures for share-diagnosis.
+# should_trigger: the router must pick this skill.
+# should_not_trigger: it must pick anything else; `expect` pins the sibling that
+# should own the prompt instead, and is only used where routing is unambiguous.
+
+should_trigger:
+  - "Why are we losing ground in the electrolyte powder category?"
+  - "Who's catching up to us in kids' sensory toys?"
+  - "Our share dropped two points last quarter — what happened?"
+  - "Decode this shift for Schylling against the category"
+  - "Is Mantyplay actually taking our customers, or is the category just growing?"
+  - "Why did we gain share in Q2? Is it real or did we get lucky?"
+  - "Am I winning the fidget toy market?"
+  - "Break down where our position went against the top five competitors"
+  - "Anker keeps gaining momentum in power banks — what's driving it?"
+  - "We grew revenue 40% but it feels like we're falling behind. Are we?"
+  - "Where did our lost revenue go — a competitor, or the category shrinking?"
+
+should_not_trigger:
+  - prompt: "What emerging keywords are taking off in protein powder?"
+    expect: analyze-category-keywords
+  - prompt: "Rewrite our catalog titles for Amazon's 75-character rule"
+    expect: title-rewrite-and-item-highlights
+  - prompt: "What new products should we launch in pet supplements?"
+    expect: innovation-whitespace
+  - prompt: "Benchmark our brand against the category on price tiers and search visibility"
+    expect: benchmark-brand
+  - "How big is the collagen market on Amazon?"
+  - "Draft the agenda for our customer QBR next week"
+  - "What's our current price on B08XYZ1234?"
