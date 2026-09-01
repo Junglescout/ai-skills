@@ -346,7 +346,7 @@ What this skill owns on top of that, because it is editorial rather than visual:
 - Numbered kickers in mono uppercase (`02 / Share of voice`); the mono-vs-sans contrast is part of the voice.
 - Chart cards carry a title **and** a takeaway subtitle stating the conclusion, not axis names.
 - Color only on signal — severity, focal vs. field, coverage badges — never decoration.
-- Self-contained single file: inline CSS, Chart.js from cdnjs, no external assets, `<h2 class="sr-only">` summary and `aria-label` on every canvas.
+- Self-contained single file: inline CSS; load Chart.js via the visualizer’s standard `read_me`/`modules=["chart"]` mechanism; no external images/fonts; include a `<h2 class="sr-only">` summary and an `aria-label` on every canvas.
 
 ---
 
