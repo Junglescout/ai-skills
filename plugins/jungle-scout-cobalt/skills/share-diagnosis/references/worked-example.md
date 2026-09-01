@@ -2,6 +2,8 @@
 
 This example walks through a full deep-dive diagnosis from a real session. Use it to calibrate what "good" looks like at each step — the data values, interpretation calls, and how the three new steps (SOV by intent, review velocity, launch cohort) combined to flip the diagnosis from "competitive displacement" to "launch execution failure plus category discovery loss."
 
+> **Lane mapping** (this example predates the four-lane restructure; the analysis is identical, only the filing changed): SOV by intent (§3.3) and launch cohort (§3.5) are the **Awareness** lane; review velocity (§3.4) is the **Conversion** lane and reads into Awareness durability. Buy box and Sustainability were Requires-integration in this session — JS-only, no Seller Central or ad console — so they'd appear tagged as such rather than dropped.
+
 ---
 
 ## Setup
