@@ -1,0 +1,24 @@
+# Trigger fixtures for benchmark-brand.
+
+should_trigger:
+  - "Benchmark Vital Proteins against the collagen category"
+  - "How does our brand compare to competitors on price bands?"
+  - "Give me a brand benchmark report for our Amazon business"
+  - "Compare my brand to the market on Amazon search visibility"
+  - "What's our share of voice on Amazon search versus the category?"
+  - "Where do we sit in the price tiers relative to competitors?"
+  - "Competitive landscape for our brand in home fragrance"
+  - "Brand versus category performance over the last six months"
+  - "Assess how our brand is performing against the top sellers in the category"
+  - "Which price bands hold the most opportunity for us?"
+
+should_not_trigger:
+  - prompt: "Why did our share collapse in March?"
+    expect: share-diagnosis
+  - prompt: "What should we launch next in air purifiers?"
+    expect: innovation-whitespace
+  - prompt: "Which search terms are breaking out in air fryers?"
+    expect: analyze-category-keywords
+  - prompt: "Our titles are too long for Amazon's new rule — fix them"
+    expect: title-rewrite-and-item-highlights
+  - "Summarize this customer call for me"

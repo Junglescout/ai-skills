@@ -1,0 +1,41 @@
+# Tool names exposed by the Jungle Scout Cobalt MCP server (https://ai.junglescout.com/mcp).
+#
+# lint_skills.py checks every backticked snake_case token in a skill that starts
+# with a tool-ish verb prefix (analyze_, query_, search_, get_, list_, describe_)
+# against this list, so a tool renamed server-side fails CI instead of failing
+# silently in a customer session.
+#
+# To refresh: connect the Jungle Scout MCP and list its tools, then update this
+# file. Blank lines and #-comments are ignored.
+
+analyze_attributes
+analyze_brands
+analyze_categories
+analyze_category_insights
+analyze_competitive_offers
+analyze_price_tiers
+analyze_products
+analyze_seller_product_offers
+analyze_sellers
+describe_sales_estimates_schema
+get_categories_by_ids
+get_keyword_asin_placement
+get_keyword_historical_sov
+get_keyword_search_volume_history
+get_keyword_sov
+list_market_analysis_segments
+list_org_brands
+list_orgs
+list_selling_partner_accounts
+query_ad_performance
+query_ad_targeting
+query_dsp_audience
+query_dsp_performance
+query_org_performance
+query_sales_estimates
+query_seller_central_performance
+query_vendor_central_inventory
+query_vendor_central_performance
+search_categories_by_name
+search_keywords_by_asin
+search_keywords_by_keyword

@@ -1,0 +1,24 @@
+# Trigger fixtures for analyze-category-keywords.
+
+should_trigger:
+  - "What keywords are taking off in the sleep supplement category?"
+  - "Show me breakout search terms in pickleball"
+  - "Fastest-growing keywords in home fragrance this quarter"
+  - "Where is search demand emerging in pet dental chews?"
+  - "What search terms are rising in baby food?"
+  - "Keyword opportunities for a new product idea in kitchen gadgets"
+  - "Which queries are trending up in the electrolyte category?"
+  - "Find new keyword opportunities we aren't covering in supplements"
+  - "What's rising in search for outdoor furniture?"
+  - "Find the trending keywords in our category"
+
+should_not_trigger:
+  - prompt: "Why did our share drop over the last 90 days?"
+    expect: share-diagnosis
+  - prompt: "Benchmark us against the category on price and visibility"
+    expect: benchmark-brand
+  - prompt: "Rewrite our titles under 75 characters using our keyword gaps"
+    expect: title-rewrite-and-item-highlights
+  - prompt: "What product should we launch next in coffee?"
+    expect: innovation-whitespace
+  - "What was the category's total revenue last month?"

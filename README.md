@@ -55,6 +55,20 @@ ChatGPT does not have plugins. The steps in this setup are only for adding skill
 
 Installing skills manually by uploading a zip file is a one-time process. When we add new skills to the repository, you will need to download and upload the updated zip file again to get access to the new skills.
 
+## Contributing
+
+Skill changes are checked automatically on every pull request — a structural
+lint of the frontmatter, references, tool names, and manifests, plus a
+trigger-accuracy eval when a `SKILL.md` changes. Run the lint locally with:
+
+```bash
+pip install pyyaml
+python3 .github/skill-checks/lint_skills.py
+```
+
+See [`.github/skill-checks/README.md`](.github/skill-checks/README.md) for what
+each check covers and how to add fixtures when you add or edit a skill.
+
 ## Notes
 
 - The MCP server uses live Jungle Scout data, but assistant-generated conclusions should still be reviewed against the underlying tool results.
