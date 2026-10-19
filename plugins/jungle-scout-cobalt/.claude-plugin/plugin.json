@@ -2,6 +2,11 @@
   "name": "jungle-scout-cobalt",
   "version": "0.0.1",
   "privacyPolicyUrl": "https://www.junglescout.com/privacy/",
+  "supportUrl": "https://junglescout.zendesk.com/",
+  "homepage": "https://junglescout.com",
+  "repository": "https://github.com/Junglescout/ai-skills",
+  "termsOfServiceUrl": "https://www.junglescout.com/terms-of-use/",
+  "documentationUrl": "https://junglescout.notion.site/Jungle-Scout-MCP-Getting-Started-guide-3742362b8e5b802288bec7a7f7941566", 
   "description": "Connect your AI to Jungle Scout Cobalt's industry-leading Amazon intelligence for brands. Ground every revenue decision in the most complete Amazon data — category benchmarking, pricing, product innovation, reseller control, and advertising performance.",
   "author": {
     "name": "Jungle Scout",
